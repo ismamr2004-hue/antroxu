@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta — Café Bar Antroxu</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+  :root {
+    --verde: #2C6E5A;
+    --verde-osc: #1a4a3a;
+    --dorado: #D4A017;
+    --crema: #F8F4EE;
+    --gris: #6B7280;
+    --negro: #1a1a1a;
+    --blanco: #FFFFFF;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--crema);
+    color: var(--negro);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--verde-osc), var(--verde));
+    padding: 30px 20px 24px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  }
+  header .logo-emoji { font-size: 40px; display: block; margin-bottom: 6px; }
+  header h1 { color: var(--blanco); font-size: 26px; font-weight: 900; letter-spacing: -0.5px; }
+  header p { color: rgba(255,255,255,0.75); font-size: 13px; margin-top: 3px; }
+  header .badge {
+    display: inline-block;
+    background: var(--dorado);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* NAV TABS */
+  nav {
+    background: var(--blanco);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 2px solid #e8e8e8;
+    position: sticky;
+    top: 120px;
+    z-index: 99;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    text-decoration: none;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gris);
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--verde);
+    border-bottom-color: var(--verde);
+  }
+
+  /* MAIN */
+  main { max-width: 700px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* SECTION */
+  .menu-section { margin-bottom: 36px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--verde);
+  }
+  .section-header .s-icon { font-size: 24px; }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--verde-osc);
+  }
+  .section-header .s-count {
+    margin-left: auto;
+    background: var(--verde);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+  }
+
+  /* ITEM */
+  .item {
+    background: var(--blanco);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  }
+  .item-info { flex: 1; }
+  .item-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--negro);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .item-name .tag-new {
+    background: #e8f5e9;
+    color: var(--verde);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 20px;
+  }
+  .item-name .tag-pop {
+    background: #fff3cd;
+    color: #8a6000;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 20px;
+  }
+  .item-desc {
+    font-size: 12.5px;
+    color: var(--gris);
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .item-allergens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .allergen {
+    font-size: 10px;
+    background: #f3f4f6;
+    color: #555;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+  .item-price {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--verde);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .item-emoji {
+    font-size: 32px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* BEBIDAS GRID */
+  .bebidas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .bebida-item {
+    background: var(--blanco);
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .bebida-item .b-name { font-size: 13.5px; font-weight: 700; color: var(--negro); }
+  .bebida-item .b-sub { font-size: 11px; color: var(--gris); }
+  .bebida-item .b-price { font-size: 15px; font-weight: 900; color: var(--dorado); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    background: var(--verde-osc);
+    color: rgba(255,255,255,0.7);
+    padding: 24px 16px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  footer strong { color: white; }
+  footer .f-icons { font-size: 20px; margin-bottom: 8px; display: block; }
+
+  /* ALERGENOS NOTA */
+  .nota-alerg {
+    background: #fff8e1;
+    border: 1px solid var(--dorado);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #6a4800;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo-emoji">🍺</span>
+  <h1>Café Bar Antroxu</h1>
+  <p>C. Puerto de Cerredo, 13 · Gijón-Sur · 984 49 07 85</p>
+  <span class="badge">📋 Carta Digital</span>
+</header>
+
+<nav>
+  <a href="#pinchos" class="active">🥢 Pinchos</a>
+  <a href="#tapas">🍽️ Tapas</a>
+  <a href="#desayunos">☕ Desayunos</a>
+  <a href="#bocadillos">🥖 Bocadillos</a>
+  <a href="#raciones">🍖 Raciones</a>
+  <a href="#postres">🍮 Postres</a>
+  <a href="#bebidas">🍻 Bebidas</a>
+</nav>
+
+<main>
+
+  <div class="nota-alerg">
+    ⚠️ <span>Si tienes alguna <strong>alergia o intolerancia alimentaria</strong>, consulta con el personal antes de pedir. Elaboramos nuestros productos en cocina compartida.</span>
+  </div>
+
+  <!-- ─── PINCHOS ─── -->
+  <div class="menu-section" id="pinchos">
+    <div class="section-header">
+      <span class="s-icon">🥢</span>
+      <h2>Pinchos</h2>
+      <span class="s-count">10</span>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de tortilla española <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Tortilla de patata casera con cebolla pochada, jugosa y bien cuajada. Sobre pan de hogaza tostado.</div>
+        <div class="item-allergens"><span class="allergen">🥚 Huevo</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🥚</div>
+      <div class="item-price">1,80 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de morcilla asturiana <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Morcilla de Asturias a la plancha sobre pan tostado con pimiento del piquillo asado.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🫓</div>
+      <div class="item-price">2,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de jamón y queso cabrales</div>
+        <div class="item-desc">Jamón serrano con queso Cabrales derretido sobre pan rústico. Intenso y contundente.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🧀</div>
+      <div class="item-price">2,20 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de anchoa del Cantábrico <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Anchoa de L'Escala sobre pan con mantequilla y pimiento verde. Producto estrella de la casa.</div>
+        <div class="item-allergens"><span class="allergen">🐟 Pescado</span><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🐟</div>
+      <div class="item-price">2,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de cecina y rúcula <span class="tag-new">✨ Nuevo</span></div>
+        <div class="item-desc">Cecina de León con rúcula fresca, lascas de parmesano y reducción de módena.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🥩</div>
+      <div class="item-price">2,40 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de revuelto de boletus</div>
+        <div class="item-desc">Revuelto cremoso de boletus edulis con ajo y perejil. Sobre pan de centeno.</div>
+        <div class="item-allergens"><span class="allergen">🥚 Huevo</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🍄</div>
+      <div class="item-price">2,30 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de salmón ahumado</div>
+        <div class="item-desc">Salmón ahumado con queso crema, alcaparras y eneldo fresco sobre tostada.</div>
+        <div class="item-allergens"><span class="allergen">🐟 Pescado</span><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🍣</div>
+      <div class="item-price">2,60 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de chorizo a la sidra <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Chorizo asturiano guisado en sidra natural de barril. Servido sobre pan rústico tostado.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🌶️</div>
+      <div class="item-price">2,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de gambas al ajillo</div>
+        <div class="item-desc">Gambas peladas salteadas con ajo, guindilla y aceite de oliva virgen extra. Sobre pan crujiente.</div>
+        <div class="item-allergens"><span class="allergen">🦐 Crustáceos</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🦐</div>
+      <div class="item-price">2,80 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pincho de pisto con huevo de codorniz</div>
+        <div class="item-desc">Pisto casero de temporada coronado con huevo de codorniz frito. Vegetariano y sabroso.</div>
+        <div class="item-allergens"><span class="allergen">🥚 Huevo</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🫑</div>
+      <div class="item-price">1,90 €</div>
+    </div>
+  </div>
+
+  <!-- ─── TAPAS ─── -->
+  <div class="menu-section" id="tapas">
+    <div class="section-header">
+      <span class="s-icon">🍽️</span>
+      <h2>Tapas</h2>
+      <span class="s-count">8</span>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Patatas bravas con ali-oli <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Patatas fritas crujientes con salsa brava casera picante y ali-oli suave. Clásico irresistible.</div>
+        <div class="item-allergens"><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🥔</div>
+      <div class="item-price">3,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Croquetas de jamón (4 uds) <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Croquetas caseras de jamón ibérico. Bechamel cremosa, rebozado crujiente. Hechas cada día.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🟤</div>
+      <div class="item-price">4,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bocartes fritos asturianos <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Bocartes frescos del Cantábrico rebozados y fritos en aceite de oliva. Con limón y alioli.</div>
+        <div class="item-allergens"><span class="allergen">🐟 Pescado</span><span class="allergen">🌾 Gluten</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🐟</div>
+      <div class="item-price">5,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Alitas de pollo a la barbacoa</div>
+        <div class="item-desc">Alitas crujientes maceradas en nuestra salsa de barbacoa casera con miel y mostaza. 6 unidades.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🍯 Mostaza</span></div>
+      </div>
+      <div class="item-emoji">🍗</div>
+      <div class="item-price">5,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Calamares a la romana</div>
+        <div class="item-desc">Anillas de calamar rebozadas y fritas, crujientes por fuera y tiernas por dentro. Con limón.</div>
+        <div class="item-allergens"><span class="allergen">🦑 Moluscos</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🦑</div>
+      <div class="item-price">5,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pimientos del padrón <span class="tag-new">✨ Temporada</span></div>
+        <div class="item-desc">Pimientos de Padrón fritos en aceite de oliva con sal en escamas. Los hay picantes… ¿te atreves?</div>
+        <div class="item-allergens"><span class="allergen">Sin alérgenos principales</span></div>
+      </div>
+      <div class="item-emoji">🫑</div>
+      <div class="item-price">3,80 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Tabla de quesos asturianos</div>
+        <div class="item-desc">Selección de quesos asturianos: Cabrales, Afuega'l pitu y Gamonéu. Con mermelada y pan.</div>
+        <div class="item-allergens"><span class="allergen">🥛 Lácteos</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🧀</div>
+      <div class="item-price">7,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Fabada asturiana (viernes y fines de semana)</div>
+        <div class="item-desc">Fabada tradicional asturiana con fabes de la granja, chorizo, morcilla y lacón. El plato estrella.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🫘</div>
+      <div class="item-price">8,50 €</div>
+    </div>
+  </div>
+
+  <!-- ─── DESAYUNOS ─── -->
+  <div class="menu-section" id="desayunos">
+    <div class="section-header">
+      <span class="s-icon">☕</span>
+      <h2>Desayunos</h2>
+      <span class="s-count">6</span>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Café con leche + tostada <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Café con leche en vaso grande + tostada de pan de pueblo con mantequilla y mermelada o aceite y tomate.</div>
+        <div class="item-allergens"><span class="allergen">🥛 Lácteos</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">☕</div>
+      <div class="item-price">2,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Desayuno completo</div>
+        <div class="item-desc">Zumo de naranja natural + café o té + tostada con dos opciones de acompañamiento.</div>
+        <div class="item-allergens"><span class="allergen">🥛 Lácteos</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🍊</div>
+      <div class="item-price">4,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Tostada con tomate y AOVE</div>
+        <div class="item-desc">Pan de hogaza tostado con tomate natural rallado y aceite de oliva virgen extra. Sencillo y auténtico.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🍅</div>
+      <div class="item-price">1,80 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Churros con chocolate <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Churros caseros crujientes (6 uds) con chocolate caliente espeso para mojar. Los sábados por la mañana.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🍫</div>
+      <div class="item-price">3,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bocadillo de tortilla</div>
+        <div class="item-desc">Bocadillo de pan de barra con tortilla española casera. Desayuno contundente para empezar el día.</div>
+        <div class="item-allergens"><span class="allergen">🥚 Huevo</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🥖</div>
+      <div class="item-price">2,80 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Napolitana de chocolate</div>
+        <div class="item-desc">Napolitana de hojaldre rellena de chocolate con leche. Recién sacada del horno cada mañana.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🥐</div>
+      <div class="item-price">1,50 €</div>
+    </div>
+  </div>
+
+  <!-- ─── BOCADILLOS ─── -->
+  <div class="menu-section" id="bocadillos">
+    <div class="section-header">
+      <span class="s-icon">🥖</span>
+      <h2>Bocadillos</h2>
+      <span class="s-count">5</span>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bocadillo de calamares <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Bocadillo de pan de barra con calamares a la romana y alioli casero. Un clásico que nunca falla.</div>
+        <div class="item-allergens"><span class="allergen">🦑 Moluscos</span><span class="allergen">🌾 Gluten</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🦑</div>
+      <div class="item-price">4,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bocadillo de lomo con pimientos</div>
+        <div class="item-desc">Lomo de cerdo a la plancha con pimientos rojos asados y mahonesa. Sabroso y generoso.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🥩</div>
+      <div class="item-price">4,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bocadillo de jamón serrano</div>
+        <div class="item-desc">Jamón serrano con tomate y aceite de oliva en pan de hogaza crujiente.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🥓</div>
+      <div class="item-price">3,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Bocadillo vegetal <span class="tag-new">✨ Nuevo</span></div>
+        <div class="item-desc">Pan integral con aguacate, tomate, lechuga, rúcula y queso fresco. Fresco y saludable.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🥑</div>
+      <div class="item-price">4,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Montadito de sobrasada y miel</div>
+        <div class="item-desc">Pan tostado con sobrasada mallorquina y un hilo de miel de flores. Contraste dulce-salado perfecto.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🍯 Sulfitos</span></div>
+      </div>
+      <div class="item-emoji">🍯</div>
+      <div class="item-price">2,20 €</div>
+    </div>
+  </div>
+
+  <!-- ─── RACIONES ─── -->
+  <div class="menu-section" id="raciones">
+    <div class="section-header">
+      <span class="s-icon">🍖</span>
+      <h2>Raciones</h2>
+      <span class="s-count">5</span>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Ración de croquetas (8 uds) <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Las famosas croquetas caseras de jamón ibérico. Perfectas para compartir.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥛 Lácteos</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🟤</div>
+      <div class="item-price">7,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Ración de bocartes fritos</div>
+        <div class="item-desc">Ración generosa de bocartes del Cantábrico fritos. Perfectos con una caña bien fría.</div>
+        <div class="item-allergens"><span class="allergen">🐟 Pescado</span><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🐟</div>
+      <div class="item-price">8,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Pulpo a la gallega</div>
+        <div class="item-desc">Pulpo cocido sobre cama de patata, con pimentón de la Vera dulce y picante, sal y aceite de oliva.</div>
+        <div class="item-allergens"><span class="allergen">🦑 Moluscos</span></div>
+      </div>
+      <div class="item-emoji">🐙</div>
+      <div class="item-price">12,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Ración de chorizo a la sidra <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Chorizo asturiano guisado lentamente en sidra natural. El sabor de Asturias en un plato.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span></div>
+      </div>
+      <div class="item-emoji">🌭</div>
+      <div class="item-price">6,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Ración de patatas fritas caseras</div>
+        <div class="item-desc">Patatas cortadas a mano y fritas en aceite de oliva. Con o sin salsa brava. Para compartir.</div>
+        <div class="item-allergens"><span class="allergen">Sin alérgenos principales</span></div>
+      </div>
+      <div class="item-emoji">🍟</div>
+      <div class="item-price">4,00 €</div>
+    </div>
+  </div>
+
+  <!-- ─── POSTRES ─── -->
+  <div class="menu-section" id="postres">
+    <div class="section-header">
+      <span class="s-icon">🍮</span>
+      <h2>Postres</h2>
+      <span class="s-count">4</span>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Arroz con leche asturiano <span class="tag-pop">⭐ Popular</span></div>
+        <div class="item-desc">Arroz con leche cremoso al estilo asturiano, con canela en superficie quemada. Casero de verdad.</div>
+        <div class="item-allergens"><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🍚</div>
+      <div class="item-price">3,50 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Flan de huevo casero</div>
+        <div class="item-desc">Flan cremoso de huevo con caramelo líquido. Receta de la casa, elaboración propia diaria.</div>
+        <div class="item-allergens"><span class="allergen">🥚 Huevo</span><span class="allergen">🥛 Lácteos</span></div>
+      </div>
+      <div class="item-emoji">🍮</div>
+      <div class="item-price">3,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Tarta de queso al horno</div>
+        <div class="item-desc">Tarta de queso horneada al estilo vasco, con textura cremosa y base de galleta. Con mermelada de frutos rojos.</div>
+        <div class="item-allergens"><span class="allergen">🥛 Lácteos</span><span class="allergen">🌾 Gluten</span><span class="allergen">🥚 Huevo</span></div>
+      </div>
+      <div class="item-emoji">🍰</div>
+      <div class="item-price">4,00 €</div>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">Casadielles asturianas <span class="tag-new">✨ Especial</span></div>
+        <div class="item-desc">Dulce tradicional asturiano relleno de nuez, azúcar y anís. Fritas y espolvoreadas con azúcar glass.</div>
+        <div class="item-allergens"><span class="allergen">🌾 Gluten</span><span class="allergen">🥜 Frutos secos</span></div>
+      </div>
+      <div class="item-emoji">🥟</div>
+      <div class="item-price">3,50 €</div>
+    </div>
+  </div>
+
+  <!-- ─── BEBIDAS ─── -->
+  <div class="menu-section" id="bebidas">
+    <div class="section-header">
+      <span class="s-icon">🍻</span>
+      <h2>Bebidas</h2>
+      <span class="s-count">12</span>
+    </div>
+    <div class="bebidas-grid">
+      <div class="bebida-item">
+        <div><div class="b-name">☕ Café solo</div><div class="b-sub">Espresso</div></div>
+        <div class="b-price">1,20 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">☕ Café con leche</div><div class="b-sub">En vaso</div></div>
+        <div class="b-price">1,50 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🍺 Caña Mahou</div><div class="b-sub">De barril · 20cl</div></div>
+        <div class="b-price">1,60 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🍺 Estrella Galicia</div><div class="b-sub">De barril · 20cl</div></div>
+        <div class="b-price">1,60 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🍺 Sidra natural</div><div class="b-sub">Botella asturiana</div></div>
+        <div class="b-price">3,50 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🥤 Refresco</div><div class="b-sub">Coca-Cola, Fanta…</div></div>
+        <div class="b-price">2,00 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">💧 Agua</div><div class="b-sub">50cl</div></div>
+        <div class="b-price">1,20 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🍊 Zumo natural</div><div class="b-sub">Naranja exprimida</div></div>
+        <div class="b-price">2,50 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🍷 Vino tinto</div><div class="b-sub">Copa · Ribera del Duero</div></div>
+        <div class="b-price">2,00 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🥂 Vino blanco</div><div class="b-sub">Copa · Albariño</div></div>
+        <div class="b-price">2,20 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🍸 Vermú</div><div class="b-sub">Con aceitunas y naranja</div></div>
+        <div class="b-price">2,50 €</div>
+      </div>
+      <div class="bebida-item">
+        <div><div class="b-name">🥛 Leche merengada</div><div class="b-sub">Especialidad de la casa</div></div>
+        <div class="b-price">2,00 €</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="f-icons">🍺 ☕ 🥢</span>
+  <strong>Café Bar Antroxu</strong><br>
+  C. Puerto de Cerredo, 13 · Gijón-Sur · 33207 Gijón<br>
+  📞 984 49 07 85 · Cierra a las 2:30h<br><br>
+  <em>Precios con IVA incluido. Carta sujeta a disponibilidad de temporada.</em>
+</footer>
+
+<script>
+  // Smooth scroll y active nav
+  const sections = document.querySelectorAll('.menu-section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const link = document.querySelector(`nav a[href="#${id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
